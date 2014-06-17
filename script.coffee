@@ -2,43 +2,21 @@ $ -> new class
     constructor: ->
         @keyboard = {}
 
-        @color = new Color()
-
         @canvas = $("<canvas>")
-        .width window.width
-        .attr 'width', window.width
-        .height window.height
-        .attr 'height', window.height
-        .mousedown @mousedown
-        .touchstart @mousedown
-        .mousemove @mousemove
-        .touchmove @mousemove
-        .mouseup @mouseup
-        .touchend @mouseup
-        .contextmenu @contextmenu
-        .keydown @keydown
-        .keyup @keyup
-        .appendTo "body"
+            .width window.width
+            .attr 'width', window.width
+            .height window.height
+            .attr 'height', window.height
+            .mousedown @mousedown
+            .touchstart @mousedown
+            .mousemove @mousemove
+            .touchmove @mousemove
+            .mouseup @mouseup
+            .touchend @mouseup
+            .contextmenu @contextmenu
+            .appendTo "body"
         
         @context = @canvas.context2d()
-
-    keydown: (event) =>
-        code = event.which
-        char = {"27":"esc"}[code] or String.fromCharCode(code)
-        if not @keyboard[char]
-            console.log char, code
-            switch char
-                when "R" then window.location.reload()
-                when "C" then @color.show()
-                else 
-        @keyboard[char] = true
-        event.preventDefault()
-        return false
-
-    keyup: (event) =>
-        code = event.which
-        char = {"27":"esc"}[code] or String.fromCharCode(code)
-        @keyboard[char] = false
 
     contextmenu: (event) =>
         event.preventDefault()
@@ -79,7 +57,3 @@ $ -> new class
         @context.lineTo(x1, y1)
         @context.closePath()
         @context.stroke()
-
-
-
-

@@ -1,4 +1,4 @@
-class Color
+$ -> class Color
     constructor: ->
         @div = $("<div>",
             css:
@@ -11,3 +11,15 @@ class Color
                 left: "0"
         )
         .appendTo("body")
+
+        $('body').contextmenu @toggle
+
+    toggle: (event) =>
+        event.preventDefault()
+
+    hue: (event) =>
+
+    opacity: (event) =>
+
+console.log 'hey'
+
