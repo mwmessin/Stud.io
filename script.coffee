@@ -15,7 +15,7 @@ $ -> new class
             .touchend @mouseup
             .contextmenu @contextmenu
             .appendTo "body"
-        
+        debugger
         @context = @canvas.context2d()
 
     contextmenu: (event) =>

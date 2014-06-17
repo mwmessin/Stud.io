@@ -15,11 +15,9 @@ $ -> class Color
         $('body').contextmenu @toggle
 
     toggle: (event) =>
+        console.log 'hey'
         event.preventDefault()
 
     hue: (event) =>
 
     opacity: (event) =>
-
-console.log 'hey'
-
