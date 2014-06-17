@@ -2,7 +2,8 @@ $ -> new class
     constructor: ->
         @keyboard = {}
 
-        @canvas = $("<canvas>")
+        @canvas = $('<canvas>')
+            .position 'absolute'
             .width window.width
             .attr 'width', window.width
             .height window.height
@@ -14,13 +15,15 @@ $ -> new class
             .mouseup @mouseup
             .touchend @mouseup
             .contextmenu @contextmenu
-            .appendTo "body"
-        debugger
+            .appendTo 'body'
+
+        @color = new Color
+        
         @context = @canvas.context2d()
 
     contextmenu: (event) =>
         event.preventDefault()
-        return false
+        @color.toggle(event)
 
     mousedown: (event) =>
         event.preventDefault()

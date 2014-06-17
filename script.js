@@ -11,14 +11,14 @@
         this.mousedown = __bind(this.mousedown, this);
         this.contextmenu = __bind(this.contextmenu, this);
         this.keyboard = {};
-        this.canvas = $("<canvas>").width(window.width).attr('width', window.width).height(window.height).attr('height', window.height).mousedown(this.mousedown).touchstart(this.mousedown).mousemove(this.mousemove).touchmove(this.mousemove).mouseup(this.mouseup).touchend(this.mouseup).contextmenu(this.contextmenu).appendTo("body");
-        debugger;
+        this.canvas = $('<canvas>').position('absolute').width(window.width).attr('width', window.width).height(window.height).attr('height', window.height).mousedown(this.mousedown).touchstart(this.mousedown).mousemove(this.mousemove).touchmove(this.mousemove).mouseup(this.mouseup).touchend(this.mouseup).contextmenu(this.contextmenu).appendTo('body');
+        this.color = new Color;
         this.context = this.canvas.context2d();
       }
 
       _Class.prototype.contextmenu = function(event) {
         event.preventDefault();
-        return false;
+        return this.color.toggle(event);
       };
 
       _Class.prototype.mousedown = function(event) {
@@ -75,39 +75,26 @@
 (function() {
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  $(function() {
-    var Color;
-    return Color = (function() {
-      function Color() {
-        this.opacity = __bind(this.opacity, this);
-        this.hue = __bind(this.hue, this);
-        this.toggle = __bind(this.toggle, this);
-        this.div = $("<div>", {
-          css: {
-            position: "absolute",
-            cursor: "default",
-            fontSize: "5em",
-            width: "100%",
-            height: "100%",
-            top: "0",
-            left: "0"
-          }
-        }).appendTo("body");
-        $('body').contextmenu(this.toggle);
-      }
+  this.Color = (function() {
+    function Color() {
+      this.opacity = __bind(this.opacity, this);
+      this.hue = __bind(this.hue, this);
+      this.toggle = __bind(this.toggle, this);
+      this.div = $("<div>").position('absolute').display('none').width(100).height(100).background('black').appendTo('body');
+    }
 
-      Color.prototype.toggle = function(event) {
-        console.log('hey');
-        return event.preventDefault();
-      };
+    Color.prototype.toggle = function(event) {
+      var pageX, pageY;
+      pageX = event.pageX, pageY = event.pageY;
+      return this.div.display('block').top(pageY).left(pageX);
+    };
 
-      Color.prototype.hue = function(event) {};
+    Color.prototype.hue = function(event) {};
 
-      Color.prototype.opacity = function(event) {};
+    Color.prototype.opacity = function(event) {};
 
-      return Color;
+    return Color;
 
-    })();
-  });
+  })();
 
 }).call(this);

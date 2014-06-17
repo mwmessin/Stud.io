@@ -1,22 +1,19 @@
-$ -> class Color
+class @Color
     constructor: ->
-        @div = $("<div>",
-            css:
-                position: "absolute"
-                cursor: "default"
-                fontSize: "5em"
-                width: "100%"
-                height: "100%"
-                top: "0"
-                left: "0"
-        )
-        .appendTo("body")
-
-        $('body').contextmenu @toggle
+        @div = $("<div>")
+            .position 'absolute'
+            .display 'none'
+            .width 100
+            .height 100
+            .background 'black'
+            .appendTo 'body'
 
     toggle: (event) =>
-        console.log 'hey'
-        event.preventDefault()
+        {pageX, pageY} = event
+        @div
+            .display 'block'
+            .top pageY
+            .left pageX
 
     hue: (event) =>
 
