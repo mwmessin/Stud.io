@@ -77,10 +77,13 @@
 
   this.Color = (function() {
     function Color() {
-      this.opacity = __bind(this.opacity, this);
-      this.hue = __bind(this.hue, this);
+      this.changeOpacity = __bind(this.changeOpacity, this);
+      this.changeSaturation = __bind(this.changeSaturation, this);
+      this.changeHue = __bind(this.changeHue, this);
       this.toggle = __bind(this.toggle, this);
       this.div = $("<div>").position('absolute').display('none').width(100).height(100).background('black').appendTo('body');
+      this.hue = $("<div>").background('url(hue.png)').mousemove(this.changeHue).appendTo(this.div);
+      this.saturation = $("<div>").background('url(saturation.png)').mousemove(this.changeHue).appendTo(this.div);
     }
 
     Color.prototype.toggle = function(event) {
@@ -89,9 +92,17 @@
       return this.div.display('block').top(pageY).left(pageX);
     };
 
-    Color.prototype.hue = function(event) {};
+    Color.prototype.changeHue = function(event) {
+      return log(event);
+    };
 
-    Color.prototype.opacity = function(event) {};
+    Color.prototype.changeSaturation = function(event) {
+      return log(event);
+    };
+
+    Color.prototype.changeOpacity = function(event) {
+      return log(event);
+    };
 
     return Color;
 

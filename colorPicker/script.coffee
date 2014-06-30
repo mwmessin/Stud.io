@@ -8,6 +8,16 @@ class @Color
             .background 'black'
             .appendTo 'body'
 
+        @hue = $("<div>")
+            .background 'url(hue.png)'
+            .mousemove @changeHue
+            .appendTo @div
+
+        @saturation = $("<div>")
+            .background 'url(saturation.png)'
+            .mousemove @changeHue
+            .appendTo @div
+
     toggle: (event) =>
         {pageX, pageY} = event
         @div
@@ -15,6 +25,8 @@ class @Color
             .top pageY
             .left pageX
 
-    hue: (event) =>
+    changeHue: (event) => log event
 
-    opacity: (event) =>
+    changeSaturation: (event) => log event
+
+    changeOpacity: (event) => log event
