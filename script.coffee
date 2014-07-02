@@ -23,11 +23,9 @@ $ -> new class
 
     contextmenu: (event) =>
         event.preventDefault()
-        @color.toggle(event)
+        @color.open(event)
 
-    mousedown: (event) =>
-        event.preventDefault()
-        {pageX, pageY, touches} = event
+    mousedown: ({pageX, pageY, touches}) =>
         touch = if touches then touches[0] or touches[1] else {}
         @dragging = true
         @paint(@x = touch.pageX or pageX, @y = touch.pageY or pageY)

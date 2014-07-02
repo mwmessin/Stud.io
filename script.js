@@ -18,13 +18,12 @@
 
       _Class.prototype.contextmenu = function(event) {
         event.preventDefault();
-        return this.color.toggle(event);
+        return this.color.open(event);
       };
 
-      _Class.prototype.mousedown = function(event) {
+      _Class.prototype.mousedown = function(_arg) {
         var pageX, pageY, touch, touches;
-        event.preventDefault();
-        pageX = event.pageX, pageY = event.pageY, touches = event.touches;
+        pageX = _arg.pageX, pageY = _arg.pageY, touches = _arg.touches;
         touch = touches ? touches[0] || touches[1] : {};
         this.dragging = true;
         this.paint(this.x = touch.pageX || pageX, this.y = touch.pageY || pageY);
@@ -80,16 +79,24 @@
       this.changeOpacity = __bind(this.changeOpacity, this);
       this.changeSaturation = __bind(this.changeSaturation, this);
       this.changeHue = __bind(this.changeHue, this);
-      this.toggle = __bind(this.toggle, this);
-      this.div = $("<div>").position('absolute').display('none').width(100).height(100).background('black').appendTo('body');
-      this.hue = $("<div>").background('url(hue.png)').mousemove(this.changeHue).appendTo(this.div);
-      this.saturation = $("<div>").background('url(saturation.png)').mousemove(this.changeHue).appendTo(this.div);
+      this.close = __bind(this.close, this);
+      this.open = __bind(this.open, this);
+      this.div = $("<div>").position('absolute').display('none').width(296).height(256).background('black').appendTo('body');
+      this.hue = $("<div>").width(20).height(256).float('left').background('url(colorPicker/hue.png)').mousemove(this.changeHue).appendTo(this.div);
+      this.saturation = $("<div>").width(256).height(256).float('left').background('url(colorPicker/saturation.png)').mousemove(this.changeHue).appendTo(this.div);
+      this.opacity = $("<div>").width(20).height(256).float('left').background('url(colorPicker/opacity.png)').mousemove(this.changeHue).appendTo(this.div);
     }
 
-    Color.prototype.toggle = function(event) {
+    Color.prototype.open = function(_arg) {
       var pageX, pageY;
-      pageX = event.pageX, pageY = event.pageY;
-      return this.div.display('block').top(pageY).left(pageX);
+      pageX = _arg.pageX, pageY = _arg.pageY;
+      this.div.display('block').top(pageY).left(pageX);
+      return $('body').mousedown(this.close);
+    };
+
+    Color.prototype.close = function(event) {
+      this.div.display('none');
+      return $('body').off('click', this.close);
     };
 
     Color.prototype.changeHue = function(event) {
