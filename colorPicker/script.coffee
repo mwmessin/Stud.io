@@ -13,6 +13,7 @@ class @Color
             .height 256
             .float 'left'
             .background 'url(colorPicker/hue.png)'
+            .mousedown @changeHue
             .mousemove @changeHue
             .appendTo @div
 
@@ -21,6 +22,7 @@ class @Color
             .height 256
             .float 'left'
             .background 'url(colorPicker/saturation.png)'
+            .mousedown @changeHue
             .mousemove @changeHue
             .appendTo @div
 
@@ -29,6 +31,7 @@ class @Color
             .height 256
             .float 'left'
             .background 'url(colorPicker/opacity.png)'
+            .mousedown @changeHue
             .mousemove @changeHue
             .appendTo @div
 
@@ -37,11 +40,14 @@ class @Color
             .display 'block'
             .top pageY
             .left pageX
-        $('body').mousedown @close
 
-    close: (event) => 
+        $('body').mousedown 'left', @close
+        @isOpen = true
+
+    close: => 
         @div.display 'none'
         $('body').off 'click', @close
+        @isOpen = false
 
     changeHue: (event) => log event
 

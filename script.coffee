@@ -8,7 +8,7 @@ $ -> new class
             .attr 'width', window.width
             .height window.height
             .attr 'height', window.height
-            .mousedown @mousedown
+            .mousedown 'left', @mousedown
             .touchstart @mousedown
             .mousemove @mousemove
             .touchmove @mousemove
@@ -23,7 +23,7 @@ $ -> new class
 
     contextmenu: (event) =>
         event.preventDefault()
-        @color.open(event)
+        if @color.isOpen then @color.close() else @color.open(event)
 
     mousedown: ({pageX, pageY, touches}) =>
         touch = if touches then touches[0] or touches[1] else {}

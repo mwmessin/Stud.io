@@ -11,14 +11,18 @@
         this.mousedown = __bind(this.mousedown, this);
         this.contextmenu = __bind(this.contextmenu, this);
         this.keyboard = {};
-        this.canvas = $('<canvas>').position('absolute').width(window.width).attr('width', window.width).height(window.height).attr('height', window.height).mousedown(this.mousedown).touchstart(this.mousedown).mousemove(this.mousemove).touchmove(this.mousemove).mouseup(this.mouseup).touchend(this.mouseup).contextmenu(this.contextmenu).appendTo('body');
+        this.canvas = $('<canvas>').position('absolute').width(window.width).attr('width', window.width).height(window.height).attr('height', window.height).mousedown('left', this.mousedown).touchstart(this.mousedown).mousemove(this.mousemove).touchmove(this.mousemove).mouseup(this.mouseup).touchend(this.mouseup).contextmenu(this.contextmenu).appendTo('body');
         this.color = new Color;
         this.context = this.canvas.context2d();
       }
 
       _Class.prototype.contextmenu = function(event) {
         event.preventDefault();
-        return this.color.open(event);
+        if (this.color.isOpen) {
+          return this.color.close();
+        } else {
+          return this.color.open(event);
+        }
       };
 
       _Class.prototype.mousedown = function(_arg) {
@@ -82,21 +86,23 @@
       this.close = __bind(this.close, this);
       this.open = __bind(this.open, this);
       this.div = $("<div>").position('absolute').display('none').width(296).height(256).background('black').appendTo('body');
-      this.hue = $("<div>").width(20).height(256).float('left').background('url(colorPicker/hue.png)').mousemove(this.changeHue).appendTo(this.div);
-      this.saturation = $("<div>").width(256).height(256).float('left').background('url(colorPicker/saturation.png)').mousemove(this.changeHue).appendTo(this.div);
-      this.opacity = $("<div>").width(20).height(256).float('left').background('url(colorPicker/opacity.png)').mousemove(this.changeHue).appendTo(this.div);
+      this.hue = $("<div>").width(20).height(256).float('left').background('url(colorPicker/hue.png)').mousedown(this.changeHue).mousemove(this.changeHue).appendTo(this.div);
+      this.saturation = $("<div>").width(256).height(256).float('left').background('url(colorPicker/saturation.png)').mousedown(this.changeHue).mousemove(this.changeHue).appendTo(this.div);
+      this.opacity = $("<div>").width(20).height(256).float('left').background('url(colorPicker/opacity.png)').mousedown(this.changeHue).mousemove(this.changeHue).appendTo(this.div);
     }
 
     Color.prototype.open = function(_arg) {
       var pageX, pageY;
       pageX = _arg.pageX, pageY = _arg.pageY;
       this.div.display('block').top(pageY).left(pageX);
-      return $('body').mousedown(this.close);
+      $('body').mousedown('left', this.close);
+      return this.isOpen = true;
     };
 
-    Color.prototype.close = function(event) {
+    Color.prototype.close = function() {
       this.div.display('none');
-      return $('body').off('click', this.close);
+      $('body').off('click', this.close);
+      return this.isOpen = false;
     };
 
     Color.prototype.changeHue = function(event) {
