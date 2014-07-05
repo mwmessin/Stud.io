@@ -15,9 +15,9 @@ gulp.task 'default', ->
     .pipe gulp.dest('.')
     .pipe livereload()
 
-  # gulp.src ['**/*.styl', '!node_modules/**']
-  #   .pipe watch()
-  #   .pipe stylus()
-  #   .pipe concat('style.css')
-  #   .pipe gulp.dest('.')
-  #   .pipe livereload()
+  gulp.src ['**/*.styl', '!node_modules/**']
+    .pipe watch()
+    .pipe stylus()
+    .pipe concat('style.css')
+    .pipe gulp.dest('.')
+    .pipe livereload()

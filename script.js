@@ -87,8 +87,8 @@
       this.open = __bind(this.open, this);
       this.div = $("<div>").position('absolute').display('none').width(296).height(256).background('black').appendTo('body');
       this.hue = $("<div>").width(20).height(256).float('left').background('url(colorPicker/hue.png)').mousedown(this.changeHue).mousemove(this.changeHue).appendTo(this.div);
-      this.saturation = $("<div>").width(256).height(256).float('left').background('url(colorPicker/saturation.png)').mousedown(this.changeHue).mousemove(this.changeHue).appendTo(this.div);
-      this.opacity = $("<div>").width(20).height(256).float('left').background('url(colorPicker/opacity.png)').mousedown(this.changeHue).mousemove(this.changeHue).appendTo(this.div);
+      this.saturation = $("<div>").width(256).height(256).float('left').background('url(colorPicker/saturation.png)').mousedown(this.changeSaturation).mousemove(this.changeSaturation).appendTo(this.div);
+      this.opacity = $("<div>").width(20).height(256).float('left').background('url(colorPicker/opacity.png)').mousedown(this.changeOpacity).mousemove(this.changeOpacity).appendTo(this.div);
     }
 
     Color.prototype.open = function(_arg) {
@@ -105,16 +105,34 @@
       return this.isOpen = false;
     };
 
-    Color.prototype.changeHue = function(event) {
-      return log(event);
+    Color.prototype.changeHue = function(_arg) {
+      var blue, green, offsetX, offsetY, red, x;
+      offsetX = _arg.offsetX, offsetY = _arg.offsetY;
+      x = offsetY / 256;
+      if (x < 1 / 3) {
+        red = -3 * x + 1;
+        green = 3 * x;
+        blue = 0;
+      } else if (x < 2 / 3) {
+        red = 0;
+        green = -3 * x + 2;
+        blue = 3 * x - 1;
+      } else {
+        red = 3 * x - 2;
+        green = 0;
+        blue = -3 * x + 3;
+      }
+      return log(red, green, blue);
     };
 
-    Color.prototype.changeSaturation = function(event) {
-      return log(event);
+    Color.prototype.changeSaturation = function(_arg) {
+      var pageX, pageY;
+      pageX = _arg.pageX, pageY = _arg.pageY;
     };
 
-    Color.prototype.changeOpacity = function(event) {
-      return log(event);
+    Color.prototype.changeOpacity = function(_arg) {
+      var pageX, pageY;
+      pageX = _arg.pageX, pageY = _arg.pageY;
     };
 
     return Color;

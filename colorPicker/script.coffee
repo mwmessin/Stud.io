@@ -22,8 +22,8 @@ class @Color
             .height 256
             .float 'left'
             .background 'url(colorPicker/saturation.png)'
-            .mousedown @changeHue
-            .mousemove @changeHue
+            .mousedown @changeSaturation
+            .mousemove @changeSaturation
             .appendTo @div
 
         @opacity = $("<div>")
@@ -31,8 +31,8 @@ class @Color
             .height 256
             .float 'left'
             .background 'url(colorPicker/opacity.png)'
-            .mousedown @changeHue
-            .mousemove @changeHue
+            .mousedown @changeOpacity
+            .mousemove @changeOpacity
             .appendTo @div
 
     open: ({pageX, pageY}) =>
@@ -49,8 +49,26 @@ class @Color
         $('body').off 'click', @close
         @isOpen = false
 
-    changeHue: (event) => log event
+    changeHue: ({offsetX, offsetY}) => 
+        x = offsetY / 256
 
-    changeSaturation: (event) => log event
+        if x < 1 / 3
+            red = -3 * x + 1
+            green = 3 * x
+            blue = 0
+        else if x < 2 / 3
+            red = 0
+            green = -3 * x + 2
+            blue = 3 * x - 1
+        else
+            red = 3 * x - 2
+            green = 0
+            blue = -3 * x + 3
 
-    changeOpacity: (event) => log event
+        log red, green, blue
+
+    changeSaturation: ({pageX, pageY}) => 
+
+
+    changeOpacity: ({pageX, pageY}) => 
+
