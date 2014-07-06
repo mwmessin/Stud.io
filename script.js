@@ -143,6 +143,7 @@
         b = ((-3 * y + 3) * 2).min(1);
       }
       this.selectedHue = [r, g, b];
+      this.selectedColor = [r, g, b, 1];
       return this.saturation.backgroundColor(this.selectedHue.toColorHex());
     };
 
@@ -159,6 +160,7 @@
       g = g * (1 - y);
       b = b * (1 - y);
       this.selectedSaturation = [r, g, b];
+      this.selectedColor = [r, g, b, 1];
       return this.opacity.backgroundColor(this.selectedSaturation.toColorHex());
     };
 
