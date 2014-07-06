@@ -44,31 +44,31 @@ class @Color
         $('body').mousedown 'left', @close
         @isOpen = true
 
-    close: => 
+    close: =>
         @div.display 'none'
         $('body').off 'click', @close
         @isOpen = false
 
-    changeHue: ({offsetX, offsetY}) => 
+    changeHue: ({offsetX, offsetY}) =>
         x = offsetY / 256
 
         if x < 1 / 3
-            red = -3 * x + 1
-            green = 3 * x
+            red = ((-3 * x + 1) * 2).min(1)
+            green = ((3 * x) * 2).min(1)
             blue = 0
         else if x < 2 / 3
             red = 0
-            green = -3 * x + 2
-            blue = 3 * x - 1
+            green = ((-3 * x + 2) * 2).min(1)
+            blue = ((3 * x - 1) * 2).min(1)
         else
-            red = 3 * x - 2
+            red = ((3 * x - 2) * 2).min(1)
             green = 0
-            blue = -3 * x + 3
+            blue = ((-3 * x + 3) * 2).min(1)
 
         @hue = [red, green, blue]
         @saturation.backgroundColor @hue.toColorHex()
 
-    changeSaturation: ({offsetX, offsetY}) => 
+    changeSaturation: ({offsetX, offsetY}) =>
         x = offsetX / 256
         y = offsetY / 256
 
@@ -82,5 +82,5 @@ class @Color
         g = g * (1 - y)
         b = b * (1 - y)
 
-    changeOpacity: ({offsetX, offsetY}) => 
+    changeOpacity: ({offsetX, offsetY}) =>
 
