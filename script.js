@@ -122,17 +122,27 @@
         green = 0;
         blue = -3 * x + 3;
       }
-      return log(red, green, blue);
+      this.hue = [red, green, blue];
+      return this.saturation.backgroundColor(this.hue.toColorHex());
     };
 
     Color.prototype.changeSaturation = function(_arg) {
-      var pageX, pageY;
-      pageX = _arg.pageX, pageY = _arg.pageY;
+      var b, g, offsetX, offsetY, r, x, y, _ref;
+      offsetX = _arg.offsetX, offsetY = _arg.offsetY;
+      x = offsetX / 256;
+      y = offsetY / 256;
+      _ref = this.hue, r = _ref[0], g = _ref[1], b = _ref[2];
+      r = 1 - x + r * x;
+      g = 1 - x + g * x;
+      b = 1 - x + b * x;
+      r = r * (1 - y);
+      g = g * (1 - y);
+      return b = b * (1 - y);
     };
 
     Color.prototype.changeOpacity = function(_arg) {
-      var pageX, pageY;
-      pageX = _arg.pageX, pageY = _arg.pageY;
+      var offsetX, offsetY;
+      offsetX = _arg.offsetX, offsetY = _arg.offsetY;
     };
 
     return Color;

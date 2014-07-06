@@ -65,10 +65,22 @@ class @Color
             green = 0
             blue = -3 * x + 3
 
-        log red, green, blue
+        @hue = [red, green, blue]
+        @saturation.backgroundColor @hue.toColorHex()
 
-    changeSaturation: ({pageX, pageY}) => 
+    changeSaturation: ({offsetX, offsetY}) => 
+        x = offsetX / 256
+        y = offsetY / 256
 
+        [r, g, b] = @hue
 
-    changeOpacity: ({pageX, pageY}) => 
+        r = 1 - x + r * x
+        g = 1 - x + g * x
+        b = 1 - x + b * x
+
+        r = r * (1 - y)
+        g = g * (1 - y)
+        b = b * (1 - y)
+
+    changeOpacity: ({offsetX, offsetY}) => 
 
