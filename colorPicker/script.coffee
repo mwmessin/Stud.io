@@ -1,5 +1,7 @@
 class @Color
     constructor: ->
+        @selectedColor = [1, 1, 1, 1]
+
         @div = $("<div>")
             .position 'absolute'
             .display 'none'
@@ -12,67 +14,67 @@ class @Color
             .width 20
             .height 256
             .float 'left'
+            .cursor 'crosshair'
             .background 'url(colorPicker/hue.png)'
             .mousedown @changeHue
-            .mousemove @changeHue
+            .mousemove (event) => @changeHue(event) if window.dragging
             .appendTo @div
 
         @saturation = $("<div>")
             .width 256
             .height 256
             .float 'left'
+            .cursor 'crosshair'
             .background 'url(colorPicker/saturation.png)'
             .mousedown @changeSaturation
-            .mousemove @changeSaturation
+            .mousemove (event) => @changeSaturation(event) if window.dragging
             .appendTo @div
 
         @opacity = $("<div>")
             .width 20
             .height 256
             .float 'left'
+            .cursor 'crosshair'
             .background 'url(colorPicker/opacity.png)'
             .mousedown @changeOpacity
-            .mousemove @changeOpacity
+            .mousemove (event) => @changeOpacity(event) if window.dragging
             .appendTo @div
 
     open: ({pageX, pageY}) =>
+        @isOpen = true
         @div
             .display 'block'
             .top pageY
             .left pageX
 
-        $('body').mousedown 'left', @close
-        @isOpen = true
-
     close: =>
-        @div.display 'none'
-        $('body').off 'click', @close
         @isOpen = false
+        @div.display 'none'
 
-    changeHue: ({offsetX, offsetY}) =>
-        x = offsetY / 256
+    changeHue: ({offsetY}) =>
+        y = offsetY / 256
 
-        if x < 1 / 3
-            red = ((-3 * x + 1) * 2).min(1)
-            green = ((3 * x) * 2).min(1)
-            blue = 0
-        else if x < 2 / 3
-            red = 0
-            green = ((-3 * x + 2) * 2).min(1)
-            blue = ((3 * x - 1) * 2).min(1)
+        if y < 1 / 3
+            r = ((-3 * y + 1) * 2).min(1)
+            g = ((3 * y) * 2).min(1)
+            b = 0
+        else if y < 2 / 3
+            r = 0
+            g = ((-3 * y + 2) * 2).min(1)
+            b = ((3 * y - 1) * 2).min(1)
         else
-            red = ((3 * x - 2) * 2).min(1)
-            green = 0
-            blue = ((-3 * x + 3) * 2).min(1)
+            r = ((3 * y - 2) * 2).min(1)
+            g = 0
+            b = ((-3 * y + 3) * 2).min(1)
 
-        @hue = [red, green, blue]
-        @saturation.backgroundColor @hue.toColorHex()
+        @selectedHue = [r, g, b]
+        @saturation.backgroundColor @selectedHue.toColorHex()
 
     changeSaturation: ({offsetX, offsetY}) =>
         x = offsetX / 256
         y = offsetY / 256
 
-        [r, g, b] = @hue
+        [r, g, b] = @selectedHue
 
         r = 1 - x + r * x
         g = 1 - x + g * x
@@ -82,5 +84,14 @@ class @Color
         g = g * (1 - y)
         b = b * (1 - y)
 
-    changeOpacity: ({offsetX, offsetY}) =>
+        @selectedSaturation = [r, g, b]
+        @opacity.backgroundColor @selectedSaturation.toColorHex()
+
+    changeOpacity: ({offsetY}) =>
+        y = offsetY / 256
+
+        [r, g, b] = @selectedSaturation
+
+        @selectedColor = [r, g, b, 1 - y]
+
 

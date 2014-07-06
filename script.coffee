@@ -53,6 +53,8 @@ $ -> new class
         @context.fillRect(x, y, 1, 1)
 
     line: (x0, y0, x1, y1) =>
+        [r, g, b, a] = @color.selectedColor
+        @context.strokeStyle = "rgba(#{r * 255 | 0},#{g * 255 | 0},#{b * 255 | 0},#{a})"
         @context.beginPath()
         @context.moveTo(x0, y0)
         @context.lineTo(x1, y1)

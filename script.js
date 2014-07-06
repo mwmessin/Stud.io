@@ -61,6 +61,9 @@
       };
 
       _Class.prototype.line = function(x0, y0, x1, y1) {
+        var a, b, g, r, _ref;
+        _ref = this.color.selectedColor, r = _ref[0], g = _ref[1], b = _ref[2], a = _ref[3];
+        this.context.strokeStyle = "rgba(" + (r * 255 | 0) + "," + (g * 255 | 0) + "," + (b * 255 | 0) + "," + a + ")";
         this.context.beginPath();
         this.context.moveTo(x0, y0);
         this.context.lineTo(x1, y1);
@@ -85,45 +88,62 @@
       this.changeHue = __bind(this.changeHue, this);
       this.close = __bind(this.close, this);
       this.open = __bind(this.open, this);
+      this.selectedColor = [1, 1, 1, 1];
       this.div = $("<div>").position('absolute').display('none').width(296).height(256).background('black').appendTo('body');
-      this.hue = $("<div>").width(20).height(256).float('left').background('url(colorPicker/hue.png)').mousedown(this.changeHue).mousemove(this.changeHue).appendTo(this.div);
-      this.saturation = $("<div>").width(256).height(256).float('left').background('url(colorPicker/saturation.png)').mousedown(this.changeSaturation).mousemove(this.changeSaturation).appendTo(this.div);
-      this.opacity = $("<div>").width(20).height(256).float('left').background('url(colorPicker/opacity.png)').mousedown(this.changeOpacity).mousemove(this.changeOpacity).appendTo(this.div);
+      this.hue = $("<div>").width(20).height(256).float('left').cursor('crosshair').background('url(colorPicker/hue.png)').mousedown(this.changeHue).mousemove((function(_this) {
+        return function(event) {
+          if (window.dragging) {
+            return _this.changeHue(event);
+          }
+        };
+      })(this)).appendTo(this.div);
+      this.saturation = $("<div>").width(256).height(256).float('left').cursor('crosshair').background('url(colorPicker/saturation.png)').mousedown(this.changeSaturation).mousemove((function(_this) {
+        return function(event) {
+          if (window.dragging) {
+            return _this.changeSaturation(event);
+          }
+        };
+      })(this)).appendTo(this.div);
+      this.opacity = $("<div>").width(20).height(256).float('left').cursor('crosshair').background('url(colorPicker/opacity.png)').mousedown(this.changeOpacity).mousemove((function(_this) {
+        return function(event) {
+          if (window.dragging) {
+            return _this.changeOpacity(event);
+          }
+        };
+      })(this)).appendTo(this.div);
     }
 
     Color.prototype.open = function(_arg) {
       var pageX, pageY;
       pageX = _arg.pageX, pageY = _arg.pageY;
-      this.div.display('block').top(pageY).left(pageX);
-      $('body').mousedown('left', this.close);
-      return this.isOpen = true;
+      this.isOpen = true;
+      return this.div.display('block').top(pageY).left(pageX);
     };
 
     Color.prototype.close = function() {
-      this.div.display('none');
-      $('body').off('click', this.close);
-      return this.isOpen = false;
+      this.isOpen = false;
+      return this.div.display('none');
     };
 
     Color.prototype.changeHue = function(_arg) {
-      var blue, green, offsetX, offsetY, red, x;
-      offsetX = _arg.offsetX, offsetY = _arg.offsetY;
-      x = offsetY / 256;
-      if (x < 1 / 3) {
-        red = ((-3 * x + 1) * 2).min(1);
-        green = ((3 * x) * 2).min(1);
-        blue = 0;
-      } else if (x < 2 / 3) {
-        red = 0;
-        green = ((-3 * x + 2) * 2).min(1);
-        blue = ((3 * x - 1) * 2).min(1);
+      var b, g, offsetY, r, y;
+      offsetY = _arg.offsetY;
+      y = offsetY / 256;
+      if (y < 1 / 3) {
+        r = ((-3 * y + 1) * 2).min(1);
+        g = ((3 * y) * 2).min(1);
+        b = 0;
+      } else if (y < 2 / 3) {
+        r = 0;
+        g = ((-3 * y + 2) * 2).min(1);
+        b = ((3 * y - 1) * 2).min(1);
       } else {
-        red = ((3 * x - 2) * 2).min(1);
-        green = 0;
-        blue = ((-3 * x + 3) * 2).min(1);
+        r = ((3 * y - 2) * 2).min(1);
+        g = 0;
+        b = ((-3 * y + 3) * 2).min(1);
       }
-      this.hue = [red, green, blue];
-      return this.saturation.backgroundColor(this.hue.toColorHex());
+      this.selectedHue = [r, g, b];
+      return this.saturation.backgroundColor(this.selectedHue.toColorHex());
     };
 
     Color.prototype.changeSaturation = function(_arg) {
@@ -131,18 +151,23 @@
       offsetX = _arg.offsetX, offsetY = _arg.offsetY;
       x = offsetX / 256;
       y = offsetY / 256;
-      _ref = this.hue, r = _ref[0], g = _ref[1], b = _ref[2];
+      _ref = this.selectedHue, r = _ref[0], g = _ref[1], b = _ref[2];
       r = 1 - x + r * x;
       g = 1 - x + g * x;
       b = 1 - x + b * x;
       r = r * (1 - y);
       g = g * (1 - y);
-      return b = b * (1 - y);
+      b = b * (1 - y);
+      this.selectedSaturation = [r, g, b];
+      return this.opacity.backgroundColor(this.selectedSaturation.toColorHex());
     };
 
     Color.prototype.changeOpacity = function(_arg) {
-      var offsetX, offsetY;
-      offsetX = _arg.offsetX, offsetY = _arg.offsetY;
+      var b, g, offsetY, r, y, _ref;
+      offsetY = _arg.offsetY;
+      y = offsetY / 256;
+      _ref = this.selectedSaturation, r = _ref[0], g = _ref[1], b = _ref[2];
+      return this.selectedColor = [r, g, b, 1 - y];
     };
 
     return Color;
