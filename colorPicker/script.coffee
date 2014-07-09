@@ -70,8 +70,10 @@ class @Color
             b = ((-3 * y + 3) * 2).min(1)
 
         @selectedHue = [r, g, b]
+        @selectedSaturation = [r, g, b]
         @selectedColor = [r, g, b, 1]
         @saturation.backgroundColor @selectedHue.toColorHex()
+        @opacity.backgroundColor @selectedSaturation.toColorHex()
 
     changeSaturation: ({offsetX, offsetY}) =>
         x = offsetX / 256
