@@ -1,6 +1,8 @@
 class @Color
     constructor: ->
-        @selectedColor = [1, 1, 1, 1]
+        @selectedHue = [0, 0, 0]
+        @selectedSaturation = [0, 0, 0]
+        @selectedColor = [0, 0, 0, 1]
 
         @div = $("<div>")
             .position 'absolute'

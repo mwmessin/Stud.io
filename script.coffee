@@ -5,6 +5,7 @@ $ -> new class
         @canvas = $('<canvas>')
             .position 'absolute'
             .width window.width
+            .cursor 'crosshair'
             .attr 'width', window.width
             .height window.height
             .attr 'height', window.height
@@ -28,7 +29,9 @@ $ -> new class
     mousedown: ({pageX, pageY, touches}) =>
         touch = if touches then touches[0] or touches[1] else {}
         @dragging = true
-        @paint(@x = touch.pageX or pageX, @y = touch.pageY or pageY)
+        @x = touch.pageX or pageX
+        @y = touch.pageY or pageY
+        @line(@x, @y, @x + 1, @y + 1)
         return false
 
     mousemove: (event) =>

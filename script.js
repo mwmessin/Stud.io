@@ -11,7 +11,7 @@
         this.mousedown = __bind(this.mousedown, this);
         this.contextmenu = __bind(this.contextmenu, this);
         this.keyboard = {};
-        this.canvas = $('<canvas>').position('absolute').width(window.width).attr('width', window.width).height(window.height).attr('height', window.height).mousedown('left', this.mousedown).touchstart(this.mousedown).mousemove(this.mousemove).touchmove(this.mousemove).mouseup(this.mouseup).touchend(this.mouseup).contextmenu(this.contextmenu).appendTo('body');
+        this.canvas = $('<canvas>').position('absolute').width(window.width).cursor('crosshair').attr('width', window.width).height(window.height).attr('height', window.height).mousedown('left', this.mousedown).touchstart(this.mousedown).mousemove(this.mousemove).touchmove(this.mousemove).mouseup(this.mouseup).touchend(this.mouseup).contextmenu(this.contextmenu).appendTo('body');
         this.color = new Color;
         this.context = this.canvas.context2d();
       }
@@ -30,7 +30,9 @@
         pageX = _arg.pageX, pageY = _arg.pageY, touches = _arg.touches;
         touch = touches ? touches[0] || touches[1] : {};
         this.dragging = true;
-        this.paint(this.x = touch.pageX || pageX, this.y = touch.pageY || pageY);
+        this.x = touch.pageX || pageX;
+        this.y = touch.pageY || pageY;
+        this.line(this.x, this.y, this.x + 1, this.y + 1);
         return false;
       };
 
@@ -88,7 +90,9 @@
       this.changeHue = __bind(this.changeHue, this);
       this.close = __bind(this.close, this);
       this.open = __bind(this.open, this);
-      this.selectedColor = [1, 1, 1, 1];
+      this.selectedHue = [0, 0, 0];
+      this.selectedSaturation = [0, 0, 0];
+      this.selectedColor = [0, 0, 0, 1];
       this.div = $("<div>").position('absolute').display('none').width(296).height(256).background('black').appendTo('body');
       this.hue = $("<div>").width(20).height(256).float('left').cursor('crosshair').background('url(colorPicker/hue.png)').mousedown(this.changeHue).mousemove((function(_this) {
         return function(event) {
