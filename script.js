@@ -94,25 +94,19 @@
       this.selectedSaturation = [0, 0, 0];
       this.selectedColor = [0, 0, 0, 1];
       this.div = $("<div>").position('absolute').display('none').width(296).height(256).background('black').appendTo('body');
-      this.hue = $("<div>").width(20).height(256).float('left').cursor('crosshair').background('url(colorPicker/hue.png)').mousedown(this.changeHue).mousemove((function(_this) {
+      this.hue = $("<div>").width(20).height(256).float('left').cursor('crosshair').background('url(colorPicker/hue.png)').mousedown('left', this.changeHue).drag((function(_this) {
         return function(event) {
-          if (window.dragging) {
-            return _this.changeHue(event);
-          }
+          return _this.changeHue(event);
         };
       })(this)).appendTo(this.div);
-      this.saturation = $("<div>").width(256).height(256).float('left').cursor('crosshair').background('url(colorPicker/saturation.png)').mousedown(this.changeSaturation).mousemove((function(_this) {
+      this.saturation = $("<div>").width(256).height(256).float('left').cursor('crosshair').background('url(colorPicker/saturation.png)').mousedown('left', this.changeSaturation).drag((function(_this) {
         return function(event) {
-          if (window.dragging) {
-            return _this.changeSaturation(event);
-          }
+          return _this.changeSaturation(event);
         };
       })(this)).appendTo(this.div);
-      this.opacity = $("<div>").width(20).height(256).float('left').cursor('crosshair').background('url(colorPicker/opacity.png)').mousedown(this.changeOpacity).mousemove((function(_this) {
+      this.opacity = $("<div>").width(20).height(256).float('left').cursor('crosshair').background('url(colorPicker/opacity.png)').mousedown('left', this.changeOpacity).drag((function(_this) {
         return function(event) {
-          if (window.dragging) {
-            return _this.changeOpacity(event);
-          }
+          return _this.changeOpacity(event);
         };
       })(this)).appendTo(this.div);
     }

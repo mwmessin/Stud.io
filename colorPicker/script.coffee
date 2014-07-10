@@ -18,8 +18,8 @@ class @Color
             .float 'left'
             .cursor 'crosshair'
             .background 'url(colorPicker/hue.png)'
-            .mousedown @changeHue
-            .mousemove (event) => @changeHue(event) if window.dragging
+            .mousedown 'left', @changeHue
+            .drag (event) => @changeHue(event)
             .appendTo @div
 
         @saturation = $("<div>")
@@ -28,8 +28,8 @@ class @Color
             .float 'left'
             .cursor 'crosshair'
             .background 'url(colorPicker/saturation.png)'
-            .mousedown @changeSaturation
-            .mousemove (event) => @changeSaturation(event) if window.dragging
+            .mousedown 'left', @changeSaturation
+            .drag (event) => @changeSaturation(event)
             .appendTo @div
 
         @opacity = $("<div>")
@@ -38,8 +38,8 @@ class @Color
             .float 'left'
             .cursor 'crosshair'
             .background 'url(colorPicker/opacity.png)'
-            .mousedown @changeOpacity
-            .mousemove (event) => @changeOpacity(event) if window.dragging
+            .mousedown 'left', @changeOpacity
+            .drag (event) => @changeOpacity(event)
             .appendTo @div
 
     open: ({pageX, pageY}) =>
