@@ -1,5 +1,5 @@
 $ -> 
-    colorPicker = new Color
+    colorPicker = new ColorPicker
 
     brush = new Tool(
         cursor: 'crosshair'

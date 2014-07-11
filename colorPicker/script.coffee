@@ -1,4 +1,4 @@
-class @Color
+class @ColorPicker
     constructor: ->
         @selectedHue = [0, 0, 0]
         @selectedSaturation = [0, 0, 0]

@@ -3,7 +3,7 @@
 
   $(function() {
     var brush, colorPicker, radius;
-    colorPicker = new Color;
+    colorPicker = new ColorPicker;
     brush = new Tool({
       cursor: 'crosshair',
       line: function(x0, y0, x1, y1) {
@@ -103,8 +103,8 @@
 (function() {
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  this.Color = (function() {
-    function Color() {
+  this.ColorPicker = (function() {
+    function ColorPicker() {
       this.changeOpacity = __bind(this.changeOpacity, this);
       this.changeSaturation = __bind(this.changeSaturation, this);
       this.changeHue = __bind(this.changeHue, this);
@@ -131,19 +131,19 @@
       })(this)).appendTo(this.div);
     }
 
-    Color.prototype.open = function(_arg) {
+    ColorPicker.prototype.open = function(_arg) {
       var pageX, pageY;
       pageX = _arg.pageX, pageY = _arg.pageY;
       this.isOpen = true;
       return this.div.display('block').top(pageY).left(pageX);
     };
 
-    Color.prototype.close = function() {
+    ColorPicker.prototype.close = function() {
       this.isOpen = false;
       return this.div.display('none');
     };
 
-    Color.prototype.changeHue = function(_arg) {
+    ColorPicker.prototype.changeHue = function(_arg) {
       var b, g, offsetY, r, y;
       offsetY = _arg.offsetY;
       y = offsetY / 256;
@@ -167,7 +167,7 @@
       return this.opacity.backgroundColor(this.selectedSaturation.toColorHex());
     };
 
-    Color.prototype.changeSaturation = function(_arg) {
+    ColorPicker.prototype.changeSaturation = function(_arg) {
       var b, g, offsetX, offsetY, r, x, y, _ref;
       offsetX = _arg.offsetX, offsetY = _arg.offsetY;
       x = offsetX / 256;
@@ -184,7 +184,7 @@
       return this.opacity.backgroundColor(this.selectedSaturation.toColorHex());
     };
 
-    Color.prototype.changeOpacity = function(_arg) {
+    ColorPicker.prototype.changeOpacity = function(_arg) {
       var b, g, offsetY, r, y, _ref;
       offsetY = _arg.offsetY;
       y = offsetY / 256;
@@ -192,7 +192,7 @@
       return this.selectedColor = [r, g, b, 1 - y];
     };
 
-    return Color;
+    return ColorPicker;
 
   })();
 
