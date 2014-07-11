@@ -20,7 +20,9 @@ $ ->
                 colorPicker.open(event)
     )
 
-    radius = new Tool()
+    radius = new Tool(
+        cursor: 'crosshair'
+    )
 
     new class
         constructor: ->

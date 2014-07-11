@@ -24,7 +24,9 @@
         }
       }
     });
-    radius = new Tool();
+    radius = new Tool({
+      cursor: 'crosshair'
+    });
     return new ((function() {
       function _Class() {
         this.mouseup = __bind(this.mouseup, this);
