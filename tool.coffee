@@ -1,2 +1,2 @@
 class @Tool
-  constructor: ({@cursor}) ->
+  constructor: ({@cursor, @contextmenu, @line}) ->

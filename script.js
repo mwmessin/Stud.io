@@ -2,27 +2,48 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   $(function() {
+    var brush, colorPicker;
+    colorPicker = new Color;
+    brush = new Tool({
+      cursor: 'crosshair',
+      line: function(x0, y0, x1, y1) {
+        var a, b, g, r, _ref;
+        _ref = colorPicker.selectedColor, r = _ref[0], g = _ref[1], b = _ref[2], a = _ref[3];
+        this.context.strokeStyle = "rgba(" + (r * 255 | 0) + "," + (g * 255 | 0) + "," + (b * 255 | 0) + "," + a + ")";
+        this.context.beginPath();
+        this.context.moveTo(x0, y0);
+        this.context.lineTo(x1, y1);
+        this.context.closePath();
+        return this.context.stroke();
+      },
+      contextmenu: function() {
+        if (colorPicker.isOpen) {
+          return colorPicker.close();
+        } else {
+          return colorPicker.open(event);
+        }
+      }
+    });
     return new ((function() {
       function _Class() {
-        this.line = __bind(this.line, this);
-        this.paint = __bind(this.paint, this);
         this.mouseup = __bind(this.mouseup, this);
         this.mousemove = __bind(this.mousemove, this);
         this.mousedown = __bind(this.mousedown, this);
         this.contextmenu = __bind(this.contextmenu, this);
-        this.keyboard = {};
         this.canvas = $('<canvas>').position('absolute').width(window.width).cursor('crosshair').attr('width', window.width).height(window.height).attr('height', window.height).mousedown('left', this.mousedown).touchstart(this.mousedown).mousemove(this.mousemove).touchmove(this.mousemove).mouseup(this.mouseup).touchend(this.mouseup).contextmenu(this.contextmenu).appendTo('body');
-        this.color = new Color;
         this.context = this.canvas.context2d();
+        this.pick(brush);
       }
+
+      _Class.prototype.pick = function(tool) {
+        this.tool = tool;
+        this.canvas.cursor(this.tool.cursor);
+        return this.tool.context = this.context;
+      };
 
       _Class.prototype.contextmenu = function(event) {
         event.preventDefault();
-        if (this.color.isOpen) {
-          return this.color.close();
-        } else {
-          return this.color.open(event);
-        }
+        return this.tool.contextmenu(event);
       };
 
       _Class.prototype.mousedown = function(_arg) {
@@ -32,7 +53,7 @@
         this.dragging = true;
         this.x = touch.pageX || pageX;
         this.y = touch.pageY || pageY;
-        this.line(this.x, this.y, this.x + 1, this.y + 1);
+        this.tool.line(this.x, this.y, this.x + 1, this.y + 1);
         return false;
       };
 
@@ -44,7 +65,7 @@
         x = touch.pageX || pageX;
         y = touch.pageY || pageY;
         if (this.dragging && (x !== this.x || y !== this.y)) {
-          this.line(x, y, this.x, this.y);
+          this.tool.line(x, y, this.x, this.y);
         }
         this.x = x;
         this.y = y;
@@ -57,26 +78,22 @@
         return false;
       };
 
-      _Class.prototype.paint = function(x, y) {
-        this.context.fillStyle = 'black';
-        return this.context.fillRect(x, y, 1, 1);
-      };
-
-      _Class.prototype.line = function(x0, y0, x1, y1) {
-        var a, b, g, r, _ref;
-        _ref = this.color.selectedColor, r = _ref[0], g = _ref[1], b = _ref[2], a = _ref[3];
-        this.context.strokeStyle = "rgba(" + (r * 255 | 0) + "," + (g * 255 | 0) + "," + (b * 255 | 0) + "," + a + ")";
-        this.context.beginPath();
-        this.context.moveTo(x0, y0);
-        this.context.lineTo(x1, y1);
-        this.context.closePath();
-        return this.context.stroke();
-      };
-
       return _Class;
 
     })());
   });
+
+}).call(this);
+
+(function() {
+  this.Tool = (function() {
+    function Tool(_arg) {
+      this.cursor = _arg.cursor, this.contextmenu = _arg.contextmenu, this.line = _arg.line;
+    }
+
+    return Tool;
+
+  })();
 
 }).call(this);
 
@@ -93,7 +110,7 @@
       this.selectedHue = [0, 0, 0];
       this.selectedSaturation = [0, 0, 0];
       this.selectedColor = [0, 0, 0, 1];
-      this.div = $("<div>").position('absolute').display('none').width(296).height(256).background('black').appendTo('body');
+      this.div = $("<div>").position('absolute').display('none').width(296).height(256).background('black').layer(1).appendTo('body');
       this.hue = $("<div>").width(20).height(256).float('left').cursor('crosshair').background('url(colorPicker/hue.png)').mousedown('left', this.changeHue).drag((function(_this) {
         return function(event) {
           return _this.changeHue(event);

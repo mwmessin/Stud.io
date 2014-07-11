@@ -10,6 +10,7 @@ class @Color
             .width 296
             .height 256
             .background 'black'
+            .layer 1
             .appendTo 'body'
 
         @hue = $("<div>")
