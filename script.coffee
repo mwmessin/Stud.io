@@ -20,6 +20,8 @@ $ ->
                 colorPicker.open(event)
     )
 
+    radius = new Tool()
+
     new class
         constructor: ->
             @canvas = $('<canvas>')

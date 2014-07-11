@@ -2,7 +2,7 @@
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   $(function() {
-    var brush, colorPicker;
+    var brush, colorPicker, radius;
     colorPicker = new Color;
     brush = new Tool({
       cursor: 'crosshair',
@@ -24,6 +24,7 @@
         }
       }
     });
+    radius = new Tool();
     return new ((function() {
       function _Class() {
         this.mouseup = __bind(this.mouseup, this);
