@@ -40,11 +40,24 @@ $ ->
                 .mouseup @mouseup
                 .touchend @mouseup
                 .contextmenu @contextmenu
+                .dragenter false
+                .dragover false
+                .drop @upload
                 .appendTo 'body'
             
             @context = @canvas.context2d()
 
             @pick brush
+
+        upload: (event) =>
+            debugger
+            file = event.dataTransfer.files[0]
+            img = new Image
+            img.src = URL.createObjectURL file
+            img.onload = => @context.drawImage img, 0, 0 
+            
+            event.preventDefault()
+            event.cancelBubble = true;
 
         pick: (@tool) ->
             @canvas.cursor @tool.cursor

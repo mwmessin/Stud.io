@@ -33,10 +33,26 @@
         this.mousemove = __bind(this.mousemove, this);
         this.mousedown = __bind(this.mousedown, this);
         this.contextmenu = __bind(this.contextmenu, this);
-        this.canvas = $('<canvas>').position('absolute').width(window.width).cursor('crosshair').attr('width', window.width).height(window.height).attr('height', window.height).mousedown('left', this.mousedown).touchstart(this.mousedown).mousemove(this.mousemove).touchmove(this.mousemove).mouseup(this.mouseup).touchend(this.mouseup).contextmenu(this.contextmenu).appendTo('body');
+        this.upload = __bind(this.upload, this);
+        this.canvas = $('<canvas>').position('absolute').width(window.width).cursor('crosshair').attr('width', window.width).height(window.height).attr('height', window.height).mousedown('left', this.mousedown).touchstart(this.mousedown).mousemove(this.mousemove).touchmove(this.mousemove).mouseup(this.mouseup).touchend(this.mouseup).contextmenu(this.contextmenu).dragenter(false).dragover(false).drop(this.upload).appendTo('body');
         this.context = this.canvas.context2d();
         this.pick(brush);
       }
+
+      _Class.prototype.upload = function(event) {
+        debugger;
+        var file, img;
+        file = event.dataTransfer.files[0];
+        img = new Image;
+        img.src = URL.createObjectURL(file);
+        img.onload = (function(_this) {
+          return function() {
+            return _this.context.drawImage(img, 0, 0);
+          };
+        })(this);
+        event.preventDefault();
+        return event.cancelBubble = true;
+      };
 
       _Class.prototype.pick = function(tool) {
         this.tool = tool;
